@@ -2,7 +2,6 @@ TweetPipe
 ==========
 
 Connect to Twitter's Streaming API via Node.js Streams (using EventStreams)
-https://github.com/peeinears/tweet-pipe
 
 ## :)
 
