@@ -28,7 +28,7 @@ function TweetPipe (oauth, options) {
     gzip: true, // use twitter's gzipped stream
     headers: {
       'Accept': '*/*',
-      'User-Agent': 'peeinears/tweet-streamer'
+      'User-Agent': '@exshovelrydr'
     }
   };
 
@@ -140,6 +140,13 @@ TweetPipe.prototype.filter = function (data_events) {
 
     } else if (data['event']) {
       emit.call(this, 'event', data['event']);
+
+    } else if (data['keepalive']) {
+      // exshovelrydr adds:
+      // this comes from event-stream es.through when twitter sends \r\n as
+      // a keepalive message to the client.  in other words, we haven't
+      // stalled yet....
+      emit.call(this, 'keepalive', data['keepalive']);
 
     // TODO: support site stream messages
 
