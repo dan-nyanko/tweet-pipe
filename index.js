@@ -163,7 +163,8 @@ TweetPipe.prototype.filter = function (data_events) {
 };
 
 TweetPipe.prototype.stream = function (method, params, data_events, callback) {
-
+  var self = this;
+  
   // handle optional arguments
   // params is an object, data_events is an array, callback is a function
   [params, data_events, callback].forEach(function (arg) {
@@ -198,7 +199,7 @@ TweetPipe.prototype.stream = function (method, params, data_events, callback) {
       filter.end();
     }, ms);
   };
-
+  
   req.on('error', function (error) {
     filter.emit('error', error);
   });
@@ -207,29 +208,25 @@ TweetPipe.prototype.stream = function (method, params, data_events, callback) {
     // any response code greater then 200 from stream API is an error
     if (response.statusCode > 200) {
       filter.emit('error', 'HTTP ' + response.statusCode);
+      return;
     }
+    
     response.on('error', function (error) {
       filter.emit('error', error);
     });
-  });
-
-  filter.on('error', function (error) {
-    console.log('error:', error)
+    
+    var stream = self.options.gzip ? req
+        .pipe(self.unzip())
+        .pipe(self.parse())
+        .pipe(filter)
+      : req
+        .pipe(self.parse())
+        .pipe(filter);
+    
   });
 
   // allow user to catch emitted events
   if (typeof callback === 'function') callback(filter);
-
-  var stream = this.options.gzip ? req
-      .pipe(this.unzip())
-      .pipe(this.parse())
-      .pipe(filter)
-    : req
-      .pipe(this.parse())
-      .pipe(filter)
-  ;
-
-  return stream;
 };
 
 // convenienve method for deflating gzipped streams

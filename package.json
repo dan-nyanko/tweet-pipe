@@ -1,6 +1,6 @@
 {
   "name": "tweet-pipe",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "parse twitter's streaming api with nodejs streams",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/peeinears/tweet-pipe.git"
+    "url": "git://github.com/exshovelrydr/tweet-pipe"
   },
   "dependencies": {
     "event-stream": "https://github.com/exshovelrydr/event-stream/tarball/master",
@@ -23,6 +23,6 @@
     "pipe"
   ],
   "engines": { "node": "*" },
-  "author": "Ian Pearce <ian@ianpearce.org>",
+  "author": "exshovelrydr <exshovelrydr@gmail.com>",
   "license": "MIT"
 }
